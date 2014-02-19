@@ -1,12 +1,4 @@
 (function() {
-    // data = [
-    //     {
-    //         "y": 2014,
-    //         "m": 10,
-    //         "d": 14,
-    //         "p": 10
-    //     }, ...
-    // ]
     ActivityMap = function(data, config) {
         this.data = data;
         this.id = config.id;
