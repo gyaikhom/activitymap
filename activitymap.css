@@ -1,0 +1,42 @@
+.month {
+    display: inline-block;
+    margin: 10px;
+    height: 150px;
+}
+.month-name {
+    color: #666;
+    font-size: 11px;
+    font-family: arial;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+}
+.empty-day,
+.week-day,
+.week-name {
+    width: 15px;
+    height: 15px;
+    margin: 2px;
+    float: left;
+    border: 1px solid #eee;
+}
+
+.empty-day {
+    background: #fdfdfd;
+    border-color: #fbfbfb;
+}
+.week-day {
+    background: #fafafa;
+    
+}
+.week-name {
+    color: #aaa;
+    font-size: 10px;
+    font-family: arial;
+    text-align: center;
+    border-color: #fff;
+}
+.month-start,
+.week-start {
+    clear: left;
+}

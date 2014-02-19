@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+<title>Example Activity Map</title>
+<link rel="stylesheet" type="text/css" href="activitymap.css"/>
+</head>
+<body>
+<div id="activitymap-container"></div>
+<script type="text/javascript" src="d3.v3.min.js"></script>
+<script type="text/javascript" src="activitymap.js"></script>
+<script>
+
+var data = [
+{
+"y": 2014,
+"m": 2,
+"d": 20,
+"v": 50
+},
+{
+"y": 2014,
+"m": 2,
+"d": 10,
+"v": 30
+},
+{
+"y": 2013,
+"m": 2,
+"d": 8,
+"v": 80
+},
+{
+"y": 2012,
+"m": 2,
+"d": 7,
+"v": 50
+}
+],
+activityMap = new ActivityMap(data, {
+"id": "activitymap",
+"parent": "#activitymap-container"
+});
+activityMap.render();
+</script>
+</body>
+</html>
