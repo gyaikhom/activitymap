@@ -1,3 +1,4 @@
+/* Copyright 2014 Gagarine Yaikhom (The MIT License) */
 (function() {
     ActivityMap = function(data, config) {
         this.data = data;
@@ -82,7 +83,7 @@
             };
             me.weeks = "SMTWTFS";
         },
-        reorderColours: function() {    
+        reorderColours: function() {
             var me = this, t, i = 0, j = me.colours.length - 1;
             while (i < j) {
                 t = me.colours[i];
@@ -91,9 +92,9 @@
             }
         },
         process: function() {
-            var me = this, processed = {}, data = me.data,
-            record, y, m, d, i, c,
-            minY = 0, maxY = 0, years = [], temp = {};
+            var me = this, processed = { }, data = me.data,
+                record, y, m, d, i, c,
+                minY = 0, maxY = 0, years = [ ], temp = { };
 
             for (i = 0, c = data.length; i < c; ++i) {
                 record = data[i];
@@ -102,9 +103,9 @@
                     m = record.m;
                     d = record.d;
                     if (processed[y] === undefined)
-                        processed[y] = {};
+                        processed[y] = { };
                     if (processed[y][m] === undefined)
-                        processed[y][m] = {};
+                        processed[y][m] = { };
                     if (processed[y][m][d] === undefined)
                         processed[y][m][d] = record.p;
                     if (minY > y)
@@ -139,7 +140,7 @@
                     v = me.processed.p[y][m][i];
                     if (v !== undefined)
                         w.style('background-color', me.colours[Math.ceil(v * .25)]);
-                } catch(e) {
+                } catch (e) {
                 }
             }
             while (i++ % 7)
@@ -157,9 +158,9 @@
         },
         isVisible: function(block, parent) {
             var yearDim = block.getBoundingClientRect(),
-            parentDim = parent.getBoundingClientRect();
+                parentDim = parent.getBoundingClientRect();
             return !(yearDim.top > parentDim.bottom ||
-                     yearDim.bottom < parentDim.top);
+                yearDim.bottom < parentDim.top);
         },
         onScroll: function(me) {
             var minYear = 99999, maxYear = 0, year;
@@ -192,8 +193,8 @@
         refit: function() {
             var me = this;
             me.blocks.style('height',
-                            (parseInt(me.node.style('height'))
-                             - parseInt(me.year.style('height'))) + 'px');
+                (parseInt(me.node.style('height'))
+                    - parseInt(me.year.style('height'))) + 'px');
         }
     };
 })();

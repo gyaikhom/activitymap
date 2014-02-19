@@ -1,136 +1,140 @@
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<!DOCTYPE html>
 <html>
-<head>
-<title>Example Activity Map</title>
-<link rel="stylesheet" type="text/css" href="activitymap.css"/>
-</head>
-<body>
-<div id="activitymap-container" style="width: 350px; height: 400px;"></div>
-<script type="text/javascript" src="d3.v3.min.js"></script>
-<script type="text/javascript" src="activitymap.js"></script>
-<script>
-
-var data = [
-{
-"y": 2014,
-"m": 2,
-"d": 7,
-"v": 1,
-"p": 10
-},
-{
-"y": 2014,
-"m": 2,
-"d": 8,
-"v": 3,
-"p": 30
-},
-{
-"y": 2014,
-"m": 2,
-"d": 9,
-"v": 1,
-"p": 10
-},
-{
-"y": 2014,
-"m": 2,
-"d": 10,
-"v": 3,
-"p": 30
-},
-{
-"y": 2014,
-"m": 2,
-"d": 11,
-"v": 1,
-"p": 10
-},
-{
-"y": 2014,
-"m": 2,
-"d": 12,
-"v": 3,
-"p": 30
-},
-{
-"y": 2014,
-"m": 2,
-"d": 13,
-"v": 1,
-"p": 10
-},
-{
-"y": 2014,
-"m": 2,
-"d": 14,
-"v": 3,
-"p": 30
-},
-{
-"y": 2014,
-"m": 2,
-"d": 15,
-"v": 1,
-"p": 10
-},
-{
-"y": 2014,
-"m": 2,
-"d": 16,
-"v": 3,
-"p": 30
-},
-{
-"y": 2014,
-"m": 2,
-"d": 17,
-"v": 1,
-"p": 10
-},
-{
-"y": 2014,
-"m": 2,
-"d": 18,
-"v": 3,
-"p": 30
-},
-{
-"y": 2014,
-"m": 2,
-"d": 19,
-"v": 1,
-"p": 10
-},
-{
-"y": 2014,
-"m": 2,
-"d": 20,
-"v": 3,
-"p": 30
-},
-{
-"y": 2013,
-"m": 2,
-"d": 11,
-"v": 8,
-"p": 80
-},
-{
-"y": 2013,
-"m": 2,
-"d": 14,
-"v": 5,
-"p": 50
-}
-],
-activityMap = new ActivityMap(data, {
-"id": "activitymap",
-"parent": "#activitymap-container",
-"title": "Upload activity for ",
-"colours": ["#ffffff", "#ecffeb", "#daffd6", "#c7ffc2", "#b4ffad", "#a2ff99", "#8fff85", "#7cff70", "#69ff5c", "#57ff47", "#44ff33", "#31ff1f", "#1fff0a", "#14f500", "#13e000", "#11cc00", "#0ead00", "#0ea300", "#0c8f00", "#0a7a00", "#096600", "#075200", "#053d00", "#032900", "#021400"]
-});
-activityMap.render();
-</script>
-</body>
+    <head>
+        <title>Example Activity Map</title>
+        <link rel="stylesheet" type="text/css" href="activitymap.css"/>
+    </head>
+    <body>
+        <div id="activitymap-container" style="width: 350px; height: 400px;"></div>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script type="text/javascript" src="activitymap.js"></script>
+        <script>
+            var data = [
+                {
+                    "y": 2014,
+                    "m": 2,
+                    "d": 7,
+                    "v": 1,
+                    "p": 10
+                },
+                {
+                    "y": 2014,
+                    "m": 2,
+                    "d": 8,
+                    "v": 3,
+                    "p": 30
+                },
+                {
+                    "y": 2014,
+                    "m": 2,
+                    "d": 9,
+                    "v": 1,
+                    "p": 20
+                },
+                {
+                    "y": 2014,
+                    "m": 2,
+                    "d": 10,
+                    "v": 3,
+                    "p": 90
+                },
+                {
+                    "y": 2014,
+                    "m": 2,
+                    "d": 11,
+                    "v": 1,
+                    "p": 50
+                },
+                {
+                    "y": 2014,
+                    "m": 2,
+                    "d": 12,
+                    "v": 3,
+                    "p": 30
+                },
+                {
+                    "y": 2014,
+                    "m": 2,
+                    "d": 13,
+                    "v": 1,
+                    "p": 20
+                },
+                {
+                    "y": 2014,
+                    "m": 2,
+                    "d": 14,
+                    "v": 3,
+                    "p": 20
+                },
+                {
+                    "y": 2014,
+                    "m": 2,
+                    "d": 15,
+                    "v": 1,
+                    "p": 90
+                },
+                {
+                    "y": 2014,
+                    "m": 2,
+                    "d": 16,
+                    "v": 3,
+                    "p": 30
+                },
+                {
+                    "y": 2014,
+                    "m": 2,
+                    "d": 17,
+                    "v": 1,
+                    "p": 40
+                },
+                {
+                    "y": 2014,
+                    "m": 2,
+                    "d": 18,
+                    "v": 3,
+                    "p": 10
+                },
+                {
+                    "y": 2014,
+                    "m": 2,
+                    "d": 19,
+                    "v": 1,
+                    "p": 10
+                },
+                {
+                    "y": 2014,
+                    "m": 2,
+                    "d": 20,
+                    "v": 3,
+                    "p": 30
+                },
+                {
+                    "y": 2013,
+                    "m": 2,
+                    "d": 11,
+                    "v": 8,
+                    "p": 80
+                },
+                {
+                    "y": 2013,
+                    "m": 2,
+                    "d": 14,
+                    "v": 5,
+                    "p": 50
+                }
+            ],
+                activityMap = new ActivityMap(data, {
+                "id": "activitymap",
+                "parent": "#activitymap-container",
+                "title": "Upload activity for ",
+                "colours": [ "#ffffff", "#ecffeb", "#daffd6", "#c7ffc2",
+                    "#b4ffad", "#a2ff99", "#8fff85", "#7cff70", "#69ff5c",
+                    "#57ff47", "#44ff33", "#31ff1f", "#1fff0a", "#14f500",
+                    "#13e000", "#11cc00", "#0ead00", "#0ea300", "#0c8f00",
+                    "#0a7a00", "#096600", "#075200", "#053d00", "#032900",
+                    "#021400" ]
+            });
+            activityMap.render();
+        </script>
+    </body>
 </html>
