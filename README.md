@@ -36,7 +36,9 @@ Where `config` can have the following attributes:
   use to get the value to be used as heatmap value.
 * `colours`: Array of colours that should be used to represent
   activity intensity. This is calculated according to the heatmap
-  value relative to the maximum heatmap value in the data set.
+  value relative to the maximum heatmap value in the data set. These
+  colours should be specified as a gradient starting with the colour
+  for the lowest value, and ending with the colour for the highest value.
 
 If the config is unspecified, the following values will be taken by
 default:
