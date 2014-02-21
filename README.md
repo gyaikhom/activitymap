@@ -43,17 +43,17 @@ default:
 
 * `id`: 'example-activity-map'
 * `parent`: 'body'
-* `colours`: [ '#ffffff', '#ecffeb', '#daffd6', '#c7ffc2',
-               '#b4ffad', '#a2ff99', '#8fff85', '#7cff70', '#69ff5c',
-               '#57ff47', '#44ff33', '#31ff1f', '#1fff0a', '#14f500',
-               '#13e000', '#11cc00', '#0ead00', '#0ea300', '#0c8f00',
-               '#0a7a00', '#096600', '#075200', '#053d00', '#032900',
-               '#021400' ];
+* `colours`:
+             [ '#ffffff', '#ecffeb', '#daffd6', '#c7ffc2', '#b4ffad',
+               '#a2ff99', '#8fff85', '#7cff70', '#69ff5c', '#57ff47',
+               '#44ff33', '#31ff1f', '#1fff0a', '#14f500', '#13e000',
+               '#11cc00', '#0ead00', '#0ea300', '#0c8f00', '#0a7a00',
+               '#096600', '#075200', '#053d00', '#032900', '#021400' ];
 * `title`: 'Activity map: '
 * `timeColumn`: 't'
 * `valueColumn`: 'v'
 
 ## Note
 
-The Dow Jones Index, trading volume data was taken from
+The Dow Jones Index, trading volume data was taken from this 
 [d3js example](http://bl.ocks.org/mbostock/4063318).
