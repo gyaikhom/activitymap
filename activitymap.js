@@ -177,9 +177,9 @@
                 idx = colours.length / me.processed.V;
 
             n = node.append('div')
-                .attr('class', 'activity-map-month');
+                .attr('class', 'amap-month');
             n.append('div')
-                .attr('class', 'activity-map-month-name')
+                .attr('class', 'amap-month-name')
                 .text(month.l);
 
             /* Find at what week day the month begins */
@@ -189,15 +189,15 @@
                aligned correctly to the week-days */
             for (i = 0, c = d.getDay(); i < c; ++i)
                 n.append('div')
-                .attr('class', 'activity-map-empty-day');
+                .attr('class', 'amap-empty-day');
 
             /* Now add cells for the valid days */
             for (j = 0, c = month.n; j < c; ++i, ++j) {
                 w = n.append('div')
-                    .attr('class', 'activity-map-week-day');
+                    .attr('class', 'amap-week-day');
 
                 if (i % 7 === 0)
-                    w.classed('activity-map-week-start', true);
+                    w.classed('amap-week-start', true);
 
                 /* We set here the correct colour code using our
                    lookup table of values supplied by the user */
@@ -216,14 +216,14 @@
             /* Fill remaining invalid days with empty cells */
             while (i++ % 7)
                 n.append('div')
-                .attr('class', 'activity-map-empty-day');
+                .attr('class', 'amap-empty-day');
 
             /* Fill in week-day initials */
             n = n.append('div')
-                .attr('class', 'activity-map-week-names');
+                .attr('class', 'amap-week-names');
             for (i = 0; i < 7; ++i)
                 n.append('div')
-                .attr('class', 'activity-map-week-name')
+                .attr('class', 'amap-week-name')
                 .text(me.weeks[i]);
         },
         renderYear: function(y) {
@@ -233,13 +233,13 @@
             me.months[1].n = y % 4 ? 28 : 29;
 
             n = me.blocks.append('div')
-                .attr('class', 'activity-map-year-block')
+                .attr('class', 'amap-year-block')
                 .attr('year', y);
             n.append('div')
-                .attr('class', 'activity-map-year-name')
+                .attr('class', 'amap-year-name')
                 .text(y);
             n = n.append('div')
-                .attr('class', 'activity-map-months');
+                .attr('class', 'amap-months');
             for (i = 0; i < 12; ++i)
                 me.renderMonth(n, y, i);
         },
@@ -251,7 +251,7 @@
         },
         onScroll: function(me) {
             var minYear = 99999, maxYear = 0, year;
-            me.blocks.selectAll('.activity-map-year-block')
+            me.blocks.selectAll('.amap-year-block')
                 .each(function() {
                     if (me.isVisible(this, me.blocks.node())) {
                         year = parseInt(d3.select(this).attr('year'));
@@ -269,9 +269,9 @@
         render: function() {
             var me = this, i, c, years = me.processed.y;
             me.year = me.node.append('div')
-                .attr('class', 'activity-map-title');
+                .attr('class', 'amap-title');
             me.blocks = me.node.append('div')
-                .attr('class', 'activity-map-year-blocks');
+                .attr('class', 'amap-year-blocks');
             me.blocks.on('scroll', function() {
                 me.onScroll(me);
             });

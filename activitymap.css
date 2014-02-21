@@ -3,7 +3,7 @@
     width: 100%;
     height: 100%;
 }
-.activity-map-title {
+.amap-title {
     width: 100%;
     color: #333;
     font-size: 13px;
@@ -12,17 +12,17 @@
     text-align: center;
     padding: 10px;
 }
-.activity-map-year-blocks {
+.amap-year-blocks {
     overflow: auto;
     padding: 10px;
     width: 100%;
     border: 1px solid #ddd;
 }
-.activity-map-year-block {
+.amap-year-block {
     display: inline-block;
     float: left;
 }
-.activity-map-year-name {
+.amap-year-name {
     display: block;
     float: left;
     width: 100%;
@@ -33,16 +33,16 @@
     padding-bottom: 5px;
     border-bottom: 1px solid #eee;
 }
-.activity-map-months {
+.amap-months {
     display: inline-block;
     float: left;
 }
-.activity-map-month {
+.amap-month {
     display: inline-block;
     margin: 10px;
     height: 170px;
 }
-.activity-map-month-name {
+.amap-month-name {
     color: #666;
     font-size: 11px;
     font-family: arial;
@@ -50,9 +50,9 @@
     text-align: center;
     padding: 5px;
 }
-.activity-map-empty-day,
-.activity-map-week-day,
-.activity-map-week-name {
+.amap-empty-day,
+.amap-week-day,
+.amap-week-name {
     width: 15px;
     height: 15px;
     margin: 2px;
@@ -60,14 +60,14 @@
     border: 1px solid #f0f0f0;
 }
 
-.activity-map-empty-day {
+.amap-empty-day {
     background: #fff;
     border-color: #fff;
 }
-.activity-map-week-day {
+.amap-week-day {
     background: #fbfbfb;
 }
-.activity-map-week-name {
+.amap-week-name {
     color: #aaa;
     font-size: 10px;
     font-family: arial;
@@ -75,6 +75,6 @@
     border-color: #fff;
 }
 
-.activity-map-week-start {
+.amap-week-start {
     clear: left;
 }
