@@ -3,7 +3,7 @@
     width: 100%;
     height: 100%;
 }
-.year-name {
+.activity-map-title {
     width: 100%;
     color: #333;
     font-size: 13px;
@@ -11,20 +11,38 @@
     font-weight: bold;
     text-align: center;
     padding: 10px;
+}
+.activity-map-year-blocks {
+    overflow: auto;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+.activity-map-year-block {
+    display: inline-block;
+    float: left;
+}
+.activity-map-year-name {
+    display: block;
+    float: left;
+    width: 100%;
+    color: #09f;
+    font-family: arial;
+    font-size: 18px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     border-bottom: 1px solid #eee;
 }
-.year-blocks {
-    overflow: auto;
+.activity-map-months {
+    display: inline-block;
+    float: left;
 }
-.year-block {
-    display: block;
-}
-.month {
+.activity-map-month {
     display: inline-block;
     margin: 10px;
-    height: 150px;
+    height: 170px;
 }
-.month-name {
+.activity-map-month-name {
     color: #666;
     font-size: 11px;
     font-family: arial;
@@ -32,9 +50,9 @@
     text-align: center;
     padding: 5px;
 }
-.empty-day,
-.week-day,
-.week-name {
+.activity-map-empty-day,
+.activity-map-week-day,
+.activity-map-week-name {
     width: 15px;
     height: 15px;
     margin: 2px;
@@ -42,21 +60,21 @@
     border: 1px solid #f0f0f0;
 }
 
-.empty-day {
+.activity-map-empty-day {
     background: #fff;
     border-color: #fff;
 }
-.week-day {
+.activity-map-week-day {
     background: #fbfbfb;
 }
-.week-name {
+.activity-map-week-name {
     color: #aaa;
     font-size: 10px;
     font-family: arial;
     text-align: center;
     border-color: #fff;
 }
-.month-start,
-.week-start {
+
+.activity-map-week-start {
     clear: left;
 }

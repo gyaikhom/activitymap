@@ -1,11 +1,41 @@
 /* Copyright 2014 Gagarine Yaikhom (The MIT License) */
 (function() {
     ActivityMap = function(data, config) {
+        /* Contains an array of data points in the following format:
+           [
+           {
+           "t": 1393009249000, // timestamp
+           "v": 3,             // value
+           } ...
+           ]
+        */
         this.data = data;
-        this.id = config.id;
-        this.parent = config.parent;
-        this.colours = config.colours;
-        this.title = config.title;
+        this.id = 'example-activity-map';
+        this.parent = 'body';
+        this.colours = [ '#ffffff', '#ecffeb', '#daffd6', '#c7ffc2',
+                         '#b4ffad', '#a2ff99', '#8fff85', '#7cff70', '#69ff5c',
+                         '#57ff47', '#44ff33', '#31ff1f', '#1fff0a', '#14f500',
+                         '#13e000', '#11cc00', '#0ead00', '#0ea300', '#0c8f00',
+                         '#0a7a00', '#096600', '#075200', '#053d00', '#032900',
+                         '#021400' ];
+        this.title = 'Activity map: ';
+        this.timeColumn = 't';
+        this.valueColumn = 'v';
+
+        if (config) {
+            if (config.id)
+                this.id = config.id;
+            if (config.parent)
+                this.parent = config.parent;
+            if (config.colours)
+                this.colours = config.colours;
+            if (config.title)
+                this.title = config.title;
+            if (config.timeColumn)
+                this.timeColumn = config.timeColumn;
+            if (config.valueColumn)
+                this.valueColumn = config.valueColumn;
+        }
         this.init();
     };
 
@@ -13,146 +43,203 @@
         init: function() {
             var me = this, parent;
             me.process();
-            if (typeof me.parent === "string")
+            if (typeof me.parent === 'string')
                 parent = d3.select(me.parent);
             me.node = parent.append('div')
                 .attr('id', me.id)
                 .attr('class', 'activity-map');
             me.parent = parent;
             me.months = {
-                "0": {
-                    "n": 31,
-                    "s": "Jan",
-                    "l": "January"
+                '0': {
+                    'n': 31,
+                    's': 'Jan',
+                    'l': 'January'
                 },
-                "1": {
-                    "n": 28,
-                    "s": "Feb",
-                    "l": "February"
+                '1': {
+                    'n': 28,
+                    's': 'Feb',
+                    'l': 'February'
                 },
-                "2": {
-                    "n": 31,
-                    "s": "Mar",
-                    "l": "March"
+                '2': {
+                    'n': 31,
+                    's': 'Mar',
+                    'l': 'March'
                 },
-                "3": {
-                    "n": 30,
-                    "s": "Apr",
-                    "l": "April"
+                '3': {
+                    'n': 30,
+                    's': 'Apr',
+                    'l': 'April'
                 },
-                "4": {
-                    "n": 31,
-                    "s": "May",
-                    "l": "May"
+                '4': {
+                    'n': 31,
+                    's': 'May',
+                    'l': 'May'
                 },
-                "5": {
-                    "n": 30,
-                    "s": "Jun",
-                    "l": "June"
+                '5': {
+                    'n': 30,
+                    's': 'Jun',
+                    'l': 'June'
                 },
-                "6": {
-                    "n": 31,
-                    "s": "Jul",
-                    "l": "July"
+                '6': {
+                    'n': 31,
+                    's': 'Jul',
+                    'l': 'July'
                 },
-                "7": {
-                    "n": 31,
-                    "s": "Aug",
-                    "l": "August"
+                '7': {
+                    'n': 31,
+                    's': 'Aug',
+                    'l': 'August'
                 },
-                "8": {
-                    "n": 30,
-                    "s": "Sept",
-                    "l": "September"
+                '8': {
+                    'n': 30,
+                    's': 'Sept',
+                    'l': 'September'
                 },
-                "9": {
-                    "n": 31,
-                    "s": "Oct",
-                    "l": "October"
+                '9': {
+                    'n': 31,
+                    's': 'Oct',
+                    'l': 'October'
                 },
-                "10": {
-                    "n": 30,
-                    "s": "Nov",
-                    "l": "November"
+                '10': {
+                    'n': 30,
+                    's': 'Nov',
+                    'l': 'November'
                 },
-                "11": {
-                    "n": 31,
-                    "s": "Dec",
-                    "l": "December"
+                '11': {
+                    'n': 31,
+                    's': 'Dec',
+                    'l': 'December'
                 }
             };
-            me.weeks = "SMTWTFS";
+            me.weeks = 'SMTWTFS';
         },
         reorderColours: function() {
-            var me = this, t, i = 0, j = me.colours.length - 1;
+            var me = this, c = me.colours, t, i = 0, j = c.length - 1;
             while (i < j) {
-                t = me.colours[i];
-                me.colours[i++] = me.colours[j];
-                me.colours[j--] = t;
+                t = c[i];
+                c[i++] = c[j];
+                c[j--] = t;
             }
         },
         process: function() {
-            var me = this, processed = { }, data = me.data,
-                record, y, m, d, i, c,
-                minY = 0, maxY = 0, years = [ ], temp = { };
-
+            var me = this, data = me.data, record, ltab = { },
+                y, m, d, i, c, t, v, years = [ ], temp = { },
+                minY = 99999, maxY = 0, maxV = 0, tc = me.timeColumn, vc =
+                me.valueColumn;
+            
+            /* Create a three-dimensional lookup table from the array
+               of activity data points */
             for (i = 0, c = data.length; i < c; ++i) {
                 record = data[i];
                 if (record) {
-                    y = record.y;
-                    m = record.m;
-                    d = record.d;
-                    if (processed[y] === undefined)
-                        processed[y] = { };
-                    if (processed[y][m] === undefined)
-                        processed[y][m] = { };
-                    if (processed[y][m][d] === undefined)
-                        processed[y][m][d] = record.p;
+                    t = new Date(parseInt(record[tc]));
+                    y = t.getFullYear();
+                    m = t.getMonth();
+                    d = t.getDate() - 1;
+                    v = parseFloat(record[vc]);
+
+                    if (ltab[y] === undefined)
+                        ltab[y] = { };
+                    if (ltab[y][m] === undefined)
+                        ltab[y][m] = { };
+                    if (ltab[y][m][d] === undefined)
+                        ltab[y][m][d] = v;
+
+                    /* Get minimum and maximum years that defines the
+                       activity data range */
                     if (minY > y)
                         minY = y;
                     if (maxY < y)
                         maxY = y;
+
+                    if (maxV < v)
+                        maxV = v;
+
+                    /* Make an array of the years in range */
                     if (temp[y] === undefined) {
                         temp[y] = y;
                         years.push(y);
                     }
                 }
             }
+
             me.processed = {
                 'm': minY,
                 'M': maxY,
+                'V': maxV,
                 'y': years,
-                'p': processed
+                'l': ltab
             };
         },
         renderMonth: function(node, y, m) {
-            var me = this, i, c, d, n, w, v, month = me.months[m];
+            var me = this, i, j, c, d, n, w, v, month = me.months[m],
+                ltab = me.processed.l, colours = me.colours,
+                idx = colours.length / me.processed.V;
+
+            n = node.append('div')
+                .attr('class', 'activity-map-month');
+            n.append('div')
+                .attr('class', 'activity-map-month-name')
+                .text(month.l);
+
+            /* Find at what week day the month begins */
             d = new Date(y, m, 1);
-            n = node.append('div').attr('class', 'month');
-            n.append('div').attr('class', 'month-name').text(month.l);
+
+            /* Fill this with empty cells, so that the valid days are
+               aligned correctly to the week-days */
             for (i = 0, c = d.getDay(); i < c; ++i)
-                n.append('div').attr('class', 'empty-day');
-            for (c = month.n + c; i < c; ++i) {
-                w = n.append('div').attr('class', 'week-day');
+                n.append('div')
+                .attr('class', 'activity-map-empty-day');
+
+            /* Now add cells for the valid days */
+            for (j = 0, c = month.n; j < c; ++i, ++j) {
+                w = n.append('div')
+                    .attr('class', 'activity-map-week-day');
+
                 if (i % 7 === 0)
-                    w.classed('week-start', true);
+                    w.classed('activity-map-week-start', true);
+
+                /* We set here the correct colour code using our
+                   lookup table of values supplied by the user */
                 try {
-                    v = me.processed.p[y][m][i];
-                    if (v !== undefined)
-                        w.style('background-color', me.colours[Math.ceil(v * .25)]);
+                    v = ltab[y][m][j];
+                    if (v) {
+                        w.style('background-color',
+                                colours[Math.ceil(v * idx)]);
+                        w.attr('title', y + '-' + (m + 1)
+                               + '-' + (j + 1) + ': ' + v);
+                    }
                 } catch (e) {
                 }
             }
+
+            /* Fill remaining invalid days with empty cells */
             while (i++ % 7)
-                n.append('div').attr('class', 'empty-day');
-            n = n.append('div').attr('class', 'week-names');
+                n.append('div')
+                .attr('class', 'activity-map-empty-day');
+
+            /* Fill in week-day initials */
+            n = n.append('div')
+                .attr('class', 'activity-map-week-names');
             for (i = 0; i < 7; ++i)
-                n.append('div').attr('class', 'week-name').text(me.weeks[i]);
+                n.append('div')
+                .attr('class', 'activity-map-week-name')
+                .text(me.weeks[i]);
         },
         renderYear: function(y) {
             var me = this, d, i, n;
+
+            /* Account for leap-year */
             me.months[1].n = y % 4 ? 28 : 29;
-            n = me.blocks.append('div').attr('class', 'year-block').attr('year', y);
+
+            n = me.blocks.append('div')
+                .attr('class', 'activity-map-year-block')
+                .attr('year', y);
+            n.append('div')
+                .attr('class', 'activity-map-year-name')
+                .text(y);
+            n = n.append('div')
+                .attr('class', 'activity-map-months');
             for (i = 0; i < 12; ++i)
                 me.renderMonth(n, y, i);
         },
@@ -160,41 +247,44 @@
             var yearDim = block.getBoundingClientRect(),
                 parentDim = parent.getBoundingClientRect();
             return !(yearDim.top > parentDim.bottom ||
-                yearDim.bottom < parentDim.top);
+                     yearDim.bottom < parentDim.top);
         },
         onScroll: function(me) {
             var minYear = 99999, maxYear = 0, year;
-            me.blocks.selectAll('.year-block').each(function() {
-                if (me.isVisible(this, me.blocks.node())) {
-                    year = parseInt(d3.select(this).attr('year'));
-                    if (minYear > year)
-                        minYear = year;
-                    if (maxYear < year)
-                        maxYear = year;
-                }
-            });
+            me.blocks.selectAll('.activity-map-year-block')
+                .each(function() {
+                    if (me.isVisible(this, me.blocks.node())) {
+                        year = parseInt(d3.select(this).attr('year'));
+                        if (minYear > year)
+                            minYear = year;
+                        if (maxYear < year)
+                            maxYear = year;
+                    }
+                });
             if (minYear === maxYear)
                 me.year.text(me.title + maxYear);
             else
                 me.year.text(me.title + minYear + '-' + maxYear);
         },
         render: function() {
-            var me = this, i, c, p = me.processed, y = p.y;
-            me.year = me.node.append('div').attr('class', 'year-name');
-            me.blocks = me.node.append('div').attr('class', 'year-blocks');
+            var me = this, i, c, years = me.processed.y;
+            me.year = me.node.append('div')
+                .attr('class', 'activity-map-title');
+            me.blocks = me.node.append('div')
+                .attr('class', 'activity-map-year-blocks');
             me.blocks.on('scroll', function() {
                 me.onScroll(me);
             });
             me.refit();
-            for (i = 0, c = y.length; i < c; ++i)
-                me.renderYear(y[i]);
+            for (i = 0, c = years.length; i < c; ++i)
+                me.renderYear(years[i]);
             me.onScroll(me);
         },
         refit: function() {
             var me = this;
             me.blocks.style('height',
-                (parseInt(me.node.style('height'))
-                    - parseInt(me.year.style('height'))) + 'px');
+                            (parseInt(me.node.style('height'))
+                             - parseInt(me.year.style('height'))) + 'px');
         }
     };
 })();
