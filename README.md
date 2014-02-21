@@ -1,7 +1,11 @@
 # Activity heatmap calendar
 
 Implements an activity heatmap, which shows activity levels on a
-calendar.
+calendar. An example is shown below:
+
+
+![Example activity heatmap](activitymap.png)
+
 
 ## Usage
 
