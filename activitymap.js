@@ -52,62 +52,50 @@
             me.months = {
                 '0': {
                     'n': 31,
-                    's': 'Jan',
                     'l': 'January'
                 },
                 '1': {
                     'n': 28,
-                    's': 'Feb',
                     'l': 'February'
                 },
                 '2': {
                     'n': 31,
-                    's': 'Mar',
                     'l': 'March'
                 },
                 '3': {
                     'n': 30,
-                    's': 'Apr',
                     'l': 'April'
                 },
                 '4': {
                     'n': 31,
-                    's': 'May',
                     'l': 'May'
                 },
                 '5': {
                     'n': 30,
-                    's': 'Jun',
                     'l': 'June'
                 },
                 '6': {
                     'n': 31,
-                    's': 'Jul',
                     'l': 'July'
                 },
                 '7': {
                     'n': 31,
-                    's': 'Aug',
                     'l': 'August'
                 },
                 '8': {
                     'n': 30,
-                    's': 'Sept',
                     'l': 'September'
                 },
                 '9': {
                     'n': 31,
-                    's': 'Oct',
                     'l': 'October'
                 },
                 '10': {
                     'n': 30,
-                    's': 'Nov',
                     'l': 'November'
                 },
                 '11': {
                     'n': 31,
-                    's': 'Dec',
                     'l': 'December'
                 }
             };
