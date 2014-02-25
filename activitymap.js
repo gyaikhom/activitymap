@@ -160,7 +160,7 @@
             };
         },
         renderMonth: function(node, y, m, d) {
-            var me = this, i, j, c, n, w, v, month = me.months[m],
+            var me = this, i, j, n, w, v, month = me.months[m],
                 ltab = me.processed.l, colours = me.colours,
                 idx = colours.length / me.processed.V;
 
