@@ -159,8 +159,8 @@
                 'l': ltab
             };
         },
-        renderMonth: function(node, y, m) {
-            var me = this, i, j, c, d, n, w, v, month = me.months[m],
+        renderMonth: function(node, y, m, d) {
+            var me = this, i, j, c, n, w, v, month = me.months[m],
                 ltab = me.processed.l, colours = me.colours,
                 idx = colours.length / me.processed.V;
 
@@ -170,17 +170,14 @@
                 .attr('class', 'amap-month-name')
                 .text(month.l);
 
-            /* Find at what week day the month begins */
-            d = new Date(y, m, 1);
-
             /* Fill this with empty cells, so that the valid days are
                aligned correctly to the week-days */
-            for (i = 0, c = d.getDay(); i < c; ++i)
+            for (i = 0; i < d; ++i)
                 n.append('div')
                 .attr('class', 'amap-empty-day');
 
             /* Now add cells for the valid days */
-            for (j = 0, c = month.n; j < c; ++i, ++j) {
+            for (j = 0, d = month.n; j < d; ++i, ++j) {
                 w = n.append('div')
                     .attr('class', 'amap-week-day');
 
@@ -201,6 +198,9 @@
                 }
             }
 
+            /* weekday for next month */
+            d = i % 7;
+
             /* Fill remaining invalid days with empty cells */
             while (i++ % 7)
                 n.append('div')
@@ -213,6 +213,8 @@
                 n.append('div')
                 .attr('class', 'amap-week-name')
                 .text(me.weeks[i]);
+
+            return d;
         },
         renderYear: function(y) {
             var me = this, d, i, n;
@@ -228,8 +230,12 @@
                 .text(y);
             n = n.append('div')
                 .attr('class', 'amap-months');
+
+            /* Find at what week day the first month of year begins */
+            d = new Date(y, 0, 1);
+            d = d.getDay();
             for (i = 0; i < 12; ++i)
-                me.renderMonth(n, y, i);
+                d = me.renderMonth(n, y, i, d);
         },
         isVisible: function(block, parent) {
             var yearDim = block.getBoundingClientRect(),
