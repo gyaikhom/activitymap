@@ -4,7 +4,7 @@
         /* Contains an array of data points in the following format:
            [
            {
-           "t": 1393009249000, // timestamp
+           "t": 1393009249000, // timestamp in milliseconds, or JS Date() object
            "v": 3,             // value
            } ...
            ]
@@ -114,13 +114,15 @@
                 y, m, d, i, c, t, v, years = [ ], temp = { },
                 minY = 99999, maxY = 0, maxV = 0, tc = me.timeColumn, vc =
                 me.valueColumn;
-            
+
             /* Create a three-dimensional lookup table from the array
                of activity data points */
             for (i = 0, c = data.length; i < c; ++i) {
                 record = data[i];
                 if (record) {
-                    t = new Date(parseInt(record[tc]));
+                    t = record[tc];
+                    if (!(t instanceof Date))
+                        t = new Date(parseInt(t));
                     y = t.getFullYear();
                     m = t.getMonth();
                     d = t.getDate() - 1;

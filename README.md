@@ -35,7 +35,9 @@ Where `config` can have the following attributes:
 * `title`: Title to use at the top of the activity heatmap. The year
   range that is visible will be displayed as a suffix.
 * `timeColumn`: In the input CSV data file, which column should we use
-  to get the activity timestamp.
+  to get the activity timestamp. **The time in `data` is specified either as an
+  integer that represents the Unix timestamp in milliseconds, or as a
+  JavaScript [Date()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Date) object.**
 * `valueColumn`: In the input CSV data file, which column should we
   use to get the value to be used as heatmap value.
 * `colours`: Array of colours that should be used to represent
