@@ -38,7 +38,6 @@
                 this.valueColumn = config.valueColumn;
             if (config.fit !== undefined)
                 this.fit = config.fit;
-            console.log(this.fit);
         }
         this.init();
     };
