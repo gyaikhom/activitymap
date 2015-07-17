@@ -21,20 +21,24 @@
         this.title = 'Activity map: ';
         this.timeColumn = 't';
         this.valueColumn = 'v';
+        this.fit = false;
 
         if (config) {
-            if (config.id)
+            if (config.id !== undefined)
                 this.id = config.id;
-            if (config.parent)
+            if (config.parent !== undefined)
                 this.parent = config.parent;
-            if (config.colours)
+            if (config.colours !== undefined)
                 this.colours = config.colours;
-            if (config.title)
+            if (config.title !== undefined)
                 this.title = config.title;
-            if (config.timeColumn)
+            if (config.timeColumn !== undefined)
                 this.timeColumn = config.timeColumn;
-            if (config.valueColumn)
+            if (config.valueColumn !== undefined)
                 this.valueColumn = config.valueColumn;
+            if (config.fit !== undefined)
+                this.fit = config.fit;
+            console.log(this.fit);
         }
         this.init();
     };
@@ -271,14 +275,15 @@
             me.blocks.on('scroll', function() {
                 me.onScroll(me);
             });
-            me.refit();
             for (i = 0, c = years.length; i < c; ++i)
                 me.renderYear(years[i]);
             me.onScroll(me);
+            me.refit();
         },
         refit: function() {
             var me = this;
-            me.blocks.style('height',
+            if (!me.fit)
+                me.blocks.style('height',
                             (parseInt(me.node.style('height'))
                              - parseInt(me.year.style('height'))) + 'px');
         }

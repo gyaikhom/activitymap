@@ -45,6 +45,10 @@ Where `config` can have the following attributes:
   value relative to the maximum heatmap value in the data set. These
   colours should be specified as a gradient starting with the colour
   for the lowest value, and ending with the colour for the highest value.
+* `fit`: Optional parameter that allows the resizing of the activity
+  map. By default, the activity map will exists inside the supplied
+  container. To make the container fit the activity map, set `fit` to
+  `true`. See `index.html` for example.
 
 If the config is unspecified, the following values will be taken by
 default:

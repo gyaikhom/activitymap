@@ -6,6 +6,8 @@
     </head>
     <body>
         <div id="activitymap-container" style="width: 700px; height: 500px;"></div>
+        </br>
+        <div id="activitymap-container-fit"></div>
         <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script type="text/javascript" src="activitymap.js"></script>
         <script>
@@ -18,6 +20,17 @@
                     "valueColumn": "Volume"
             });
             activityMap.render();
+        });
+            d3.csv("dji.csv", function(data) {
+                var activityMapFit = new ActivityMap(data, {
+                    "id": "dji-volume-map",
+                    "parent": "#activitymap-container-fit",
+                    "title": "Dow Jones Index - Trading Volume ",
+                    "timeColumn": "Timestamp",
+                    "valueColumn": "Volume",
+                    "fit": true
+            });
+            activityMapFit.render();
         });
         </script>
     </body>
