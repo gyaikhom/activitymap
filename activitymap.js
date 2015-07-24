@@ -17,6 +17,7 @@
         this.timeColumn = 't';
         this.valueColumn = 'v';
         this.fit = false;
+        this.compact = true;
 
         if (config) {
             if (config.id !== undefined)
@@ -33,6 +34,8 @@
                 this.valueColumn = config.valueColumn;
             if (config.fit !== undefined)
                 this.fit = config.fit;
+            if (config.compact !== undefined)
+                this.compact = config.compact;
             if (config.hue !== undefined) {
                 if (isNaN(config.hue))
                     throw 'Invalid Hue specification: should be an integer';
@@ -173,71 +176,112 @@
                 'l': ltab
             };
         },
+        fillWeekDayInitials: function(parent) {
+            var me = this, i;
+            for (i = 0; i < 7; ++i)
+                parent.append('div')
+                .attr('class', 'amap-week-name')
+                        .text(me.weeks[i]);
+        },
+        addWeekDayContainer: function(parent) {
+            return parent.append('div')
+                .attr('class', 'amap-week-days');
+        },
         renderMonth: function(node, y, m, d) {
-            var me = this, i, j, n, w, v, month = me.months[m],
+            var me = this, i, j, w, v, month = me.months[m],
                 ltab = me.processed.l, colours = me.colours,
                 percent;
 
-            n = node.append('div')
-                .attr('class', 'amap-month');
-            n.append('div')
-                .attr('class', 'amap-month-name')
-                .text(month.l);
+            if (me.compact) {
+                node.classed('amap-compact', true);
 
-            /* Fill this with empty cells, so that the valid days are
-               aligned correctly to the week-days */
-            for (i = 0; i < d; ++i)
+                n = node.append('div')
+                    .attr('class', 'amap-month-days');
                 n.append('div')
-                .attr('class', 'amap-empty-day');
+                    .attr('class', 'amap-month-name')
+                    .text(month.l.substring(0,3));
+
+                if (me.cellCount === 0) {
+                    week = me.addWeekDayContainer(n);
+                    me.fillWeekDayInitials(week);
+                    week = me.addWeekDayContainer(n);
+
+                    /* Fill this with empty cells, so that the valid days are
+                       aligned correctly to the week-days */
+                    for (i = 0; i < d; ++i, ++me.cellCount)
+                        week.append('div')
+                        .attr('class', 'amap-empty-day');
+                }
+
+            } else {
+                n = node.append('div')
+                    .attr('class', 'amap-month');
+                n.append('div')
+                    .attr('class', 'amap-month-name')
+                    .text(month.l);
+
+                n = n.append('div')
+                    .attr('class', 'amap-month-days');
+
+                week = me.addWeekDayContainer(n);
+                me.fillWeekDayInitials(week);
+                week = me.addWeekDayContainer(n);
+
+                /* Fill this with empty cells, so that the valid days are
+                   aligned correctly to the week-days */
+                for (i = 0; i < d; ++i)
+                    week.append('div')
+                    .attr('class', 'amap-empty-day')
+                    .attr('title', (j + 1) + ' '
+                          + month.l + ' ' + y);
+            }
 
             /* Now add cells for the valid days */
             for (j = 0, d = month.n; j < d; ++i, ++j) {
-                w = n.append('div')
-                    .attr('class', 'amap-week-day');
+                if (me.cellCount % 7 === 0)
+                    week = n.append('div')
+                    .attr('class', 'amap-week-days');
 
+                try {
+                v = ltab[y][m][j];
+                } catch(e) {
+                }
+                w = week.append('div')
+                    .attr('class', 'amap-week-day')
+                    .attr('title', (j + 1) + ' '
+                          + month.l + ' ' + y +
+                          (v ? (' : ' + v) : ''));
+                me.cellCount++;
                 if (i % 7 === 0)
                     w.classed('amap-week-start', true);
 
-                /* We set here the correct colour code using our
-                   lookup table of values supplied by the user */
-                try {
-                    v = ltab[y][m][j];
-                    if (v) {
-                        percent = me.luminosityScale(v) + '%';
-                        w.classed('has-value', true)
-                            .attr('title', y + '-' + (m + 1)
-                                  + '-' + (j + 1) + ': ' + v)
-                            .style('background-color',
-                                   d3.hsl('hsl('
-                                          + me.hue + ','
-                                          + 100 + '%,'
-                                          + percent + ')')
-                                  );
-                    }
-                } catch (e) {
+                if (v) {
+                    percent = me.luminosityScale(v) + '%';
+                    w.classed('has-value', true)
+                        .style('background-color',
+                               d3.hsl('hsl('
+                                      + me.hue + ','
+                                      + 100 + '%,'
+                                      + percent + ')')
+                              );
                 }
             }
 
             /* weekday for next month */
             d = i % 7;
 
-            /* Fill remaining invalid days with empty cells */
-            while (i++ % 7)
-                n.append('div')
-                .attr('class', 'amap-empty-day');
-
-            /* Fill in week-day initials */
-            n = n.append('div')
-                .attr('class', 'amap-week-names');
-            for (i = 0; i < 7; ++i)
-                n.append('div')
-                .attr('class', 'amap-week-name')
-                .text(me.weeks[i]);
-
+            if (!me.compact) {
+                /* Fill remaining invalid days with empty cells */
+                while (i++ % 7)
+                    week.append('div')
+                    .attr('class', 'amap-empty-day')
+                    .attr('title', (j + 1) + ' '
+                          + month.l + ' ' + y);
+            }
             return d;
         },
         renderYear: function(y) {
-            var me = this, d, i, n;
+            var me = this, d, i, m, n;
 
             /* Account for leap-year */
             me.months[1].n = y % 4 ? 28 : 29;
@@ -248,6 +292,8 @@
             n.append('div')
                 .attr('class', 'amap-year-name')
                 .text(y);
+            m = n.append('div')
+                .attr('class', 'amap-month-names')
             n = n.append('div')
                 .attr('class', 'amap-months');
 
@@ -256,6 +302,15 @@
             d = d.getDay();
             for (i = 0; i < 12; ++i)
                 d = me.renderMonth(n, y, i, d);
+
+            if (me.compact) {
+                n = n.append('div')
+                    .attr('class', 'amap-month-days');
+                n.append('div')
+                    .attr('class', 'amap-month-name-filler');
+                week = me.addWeekDayContainer(n);
+                me.fillWeekDayInitials(week);
+            }
         },
         isVisible: function(block, parent) {
             var yearDim = block.getBoundingClientRect(),
@@ -289,8 +344,10 @@
             me.blocks.on('scroll', function() {
                 me.onScroll(me);
             });
-            for (i = 0, c = years.length; i < c; ++i)
+            for (i = 0, c = years.length; i < c; ++i) {
+                me.cellCount = 0;
                 me.renderYear(years[i]);
+            }
             me.onScroll(me);
             me.refit();
         },
@@ -298,8 +355,8 @@
             var me = this;
             if (!me.fit)
                 me.blocks.style('height',
-                            (parseInt(me.node.style('height'))
-                             - parseInt(me.year.style('height'))) + 'px');
+                                (parseInt(me.node.style('height'))
+                                 - parseInt(me.year.style('height'))) + 'px');
         }
     };
 })();

@@ -5,7 +5,7 @@
         <link rel="stylesheet" type="text/css" href="activitymap.css"/>
     </head>
     <body>
-        <div id="activitymap-container" style="width: 700px; height: 500px;"></div>
+        <div id="activitymap-container" style="width: 850px; height: 350px;"></div>
         </br>
         <div id="activitymap-container-fit"></div>
         <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -29,7 +29,8 @@
                     "title": "Dow Jones Index - Trading Volume ",
                     "timeColumn": "Timestamp",
                     "valueColumn": "Volume",
-                    "fit": true
+                    "fit": true,
+                    "compact": false
                 });
                 activityMapFit.render();
             });

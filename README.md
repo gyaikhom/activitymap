@@ -29,6 +29,9 @@ The API call takes the form:
 
 Where `config` can have the following attributes:
 
+* `compact`: If `true`, activity map displays entire year in one band.
+  If `false`, days are grouped into months. Compact mode is chosen by
+  default. See `index.html` for example.
 * `id`: DOM identifier to use for the activity map.
 * `parent`: The container DOM node. You can either specify a D3 node,
   or a CSS selector.
@@ -56,6 +59,7 @@ Where `config` can have the following attributes:
 If the config is unspecified, the following values will be taken by
 default:
 
+* `compact`: true
 * `id`: 'example-activity-map'
 * `parent`: 'body'
 * `hue`: 85
