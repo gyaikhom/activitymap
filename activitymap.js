@@ -12,12 +12,7 @@
         this.data = data;
         this.id = 'example-activity-map';
         this.parent = 'body';
-        this.colours = [ '#ffffff', '#ecffeb', '#daffd6', '#c7ffc2',
-                         '#b4ffad', '#a2ff99', '#8fff85', '#7cff70', '#69ff5c',
-                         '#57ff47', '#44ff33', '#31ff1f', '#1fff0a', '#14f500',
-                         '#13e000', '#11cc00', '#0ead00', '#0ea300', '#0c8f00',
-                         '#0a7a00', '#096600', '#075200', '#053d00', '#032900',
-                         '#021400' ];
+        this.hue = 85;
         this.title = 'Activity map: ';
         this.timeColumn = 't';
         this.valueColumn = 'v';
@@ -38,7 +33,16 @@
                 this.valueColumn = config.valueColumn;
             if (config.fit !== undefined)
                 this.fit = config.fit;
+            if (config.hue !== undefined) {
+                if (isNaN(config.hue))
+                    throw 'Invalid Hue specification: should be an integer';
+                else if (config.hue < 0 || config.hue > 360)
+                    throw 'Invalid Hue specification: should be >= 0 and <= 360';
+                else
+                    this.hue = config.hue;
+            }
         }
+        this.luminosityScale = d3.scale.linear();
         this.init();
     };
 
@@ -115,8 +119,9 @@
         process: function() {
             var me = this, data = me.data, record, ltab = { },
                 y, m, d, i, c, t, v, years = [ ], temp = { },
-                minY = 99999, maxY = 0, maxV = 0, tc = me.timeColumn, vc =
-                me.valueColumn;
+                minY = Number.MAX_VALUE, maxY = 0,
+                minV = Number.MAX_VALUE, maxV = 0,
+                tc = me.timeColumn, vc = me.valueColumn;
 
             /* Create a three-dimensional lookup table from the array
                of activity data points */
@@ -145,6 +150,8 @@
                     if (maxY < y)
                         maxY = y;
 
+                    if (minV > v)
+                        minV = v;
                     if (maxV < v)
                         maxV = v;
 
@@ -155,10 +162,12 @@
                     }
                 }
             }
-
+            me.luminosityScale.domain([0, maxV]);
+            me.luminosityScale.range([100, 0]);
             me.processed = {
                 'm': minY,
                 'M': maxY,
+                'v': minV,
                 'V': maxV,
                 'y': years,
                 'l': ltab
@@ -167,7 +176,7 @@
         renderMonth: function(node, y, m, d) {
             var me = this, i, j, n, w, v, month = me.months[m],
                 ltab = me.processed.l, colours = me.colours,
-                idx = colours.length / me.processed.V;
+                percent;
 
             n = node.append('div')
                 .attr('class', 'amap-month');
@@ -194,10 +203,16 @@
                 try {
                     v = ltab[y][m][j];
                     if (v) {
-                        w.style('background-color',
-                                colours[Math.ceil(v * idx)]);
-                        w.attr('title', y + '-' + (m + 1)
-                               + '-' + (j + 1) + ': ' + v);
+                        percent = me.luminosityScale(v) + '%';
+                        w.classed('has-value', true)
+                            .attr('title', y + '-' + (m + 1)
+                                  + '-' + (j + 1) + ': ' + v)
+                            .style('background-color',
+                                   d3.hsl('hsl('
+                                          + me.hue + ','
+                                          + 100 + '%,'
+                                          + percent + ')')
+                                  );
                     }
                 } catch (e) {
                 }
@@ -249,7 +264,7 @@
                      yearDim.bottom < parentDim.top);
         },
         onScroll: function(me) {
-            var minYear = 99999, maxYear = 0, year;
+            var minYear = Number.MAX_VALUE, maxYear = 0, year;
             me.blocks.selectAll('.amap-year-block')
                 .each(function() {
                     if (me.isVisible(this, me.blocks.node())) {

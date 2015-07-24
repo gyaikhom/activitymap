@@ -17,10 +17,11 @@
                     "parent": "#activitymap-container",
                     "title": "Dow Jones Index - Trading Volume ",
                     "timeColumn": "Timestamp",
-                    "valueColumn": "Volume"
+                    "valueColumn": "Volume",
+                    "hue": 200
+                });
+                activityMap.render();
             });
-            activityMap.render();
-        });
             d3.csv("dji.csv", function(data) {
                 var activityMapFit = new ActivityMap(data, {
                     "id": "dji-volume-map",
@@ -29,9 +30,9 @@
                     "timeColumn": "Timestamp",
                     "valueColumn": "Volume",
                     "fit": true
+                });
+                activityMapFit.render();
             });
-            activityMapFit.render();
-        });
         </script>
     </body>
 </html>

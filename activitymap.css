@@ -47,6 +47,9 @@
     margin: 10px;
     height: 170px;
 }
+.amap-month .has-value {
+    border-color: #ccc;
+}
 .amap-month-name {
     color: #666;
     font-size: 11px;
@@ -64,7 +67,6 @@
     float: left;
     border: 1px solid #f0f0f0;
 }
-
 .amap-empty-day {
     background: #fff;
     border-color: #fff;
@@ -79,7 +81,6 @@
     text-align: center;
     border-color: #fff;
 }
-
 .amap-week-start {
     clear: left;
 }

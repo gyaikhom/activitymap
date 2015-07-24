@@ -49,23 +49,20 @@ Where `config` can have the following attributes:
   map. By default, the activity map will exists inside the supplied
   container. To make the container fit the activity map, set `fit` to
   `true`. See `index.html` for example.
+* `hue`: Optional parameter that sets the Hue for the cell colour
+  gradient. The value should be in the closed interval `[0, 360]`. By
+  default, Hue is set to `85`.
 
 If the config is unspecified, the following values will be taken by
 default:
 
 * `id`: 'example-activity-map'
 * `parent`: 'body'
-* `colours`:
-
-             [ '#ffffff', '#ecffeb', '#daffd6', '#c7ffc2', '#b4ffad',
-               '#a2ff99', '#8fff85', '#7cff70', '#69ff5c', '#57ff47',
-               '#44ff33', '#31ff1f', '#1fff0a', '#14f500', '#13e000',
-               '#11cc00', '#0ead00', '#0ea300', '#0c8f00', '#0a7a00',
-               '#096600', '#075200', '#053d00', '#032900', '#021400' ];
-
+* `hue`: 85
 * `title`: 'Activity map: '
 * `timeColumn`: 't'
 * `valueColumn`: 'v'
+* `fit`: false
 
 ## Note
 
