@@ -2,14 +2,14 @@
 <html>
     <head>
         <title>Example Activity Map</title>
-        <link rel="stylesheet" type="text/css" href="activitymap.css"/>
+        <link rel="stylesheet" type="text/css" href="activitymap.min.css"/>
     </head>
     <body>
         <div id="activitymap-container" style="width: 850px; height: 350px;"></div>
         </br>
         <div id="activitymap-container-fit"></div>
         <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-        <script type="text/javascript" src="activitymap.js"></script>
+        <script type="text/javascript" src="activitymap.min.js"></script>
         <script>
             d3.csv("dji.csv", function(data) {
                 var activityMap = new ActivityMap(data, {
